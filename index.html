@@ -7,11 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube API Project</title>
     <style>
-        
+        * {
+            margin: 5px 0px;
+        }
+        body {
+            text-align: center;
+        }
+        #search-bar {
+            width: 40%;
+            height: 30px;
+            margin: 30px;
+        }
+        #video-divs {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: left;
+        }
+        .video-div {
+            width: 33%;
+        }
+        img {
+            width: 90%;
+        }
     </style>
 </head>
 <body>
-    <input type="text" placeholder="search">
+    <input id="search-bar" type="text" placeholder="search">
     <div id="video-divs"></div>
 
 
@@ -26,17 +47,18 @@ return item.snippet
        var container = document.querySelector('#video-divs');
        videoData.forEach(function(video) {
         var videoDiv = document.createElement('div');
+        videoDiv.classList.add('video-div');
         videoDiv.innerHTML = `
-            <img src=${video.thumbnails.default.url}>
+            <img height=200  src=${video.thumbnails.high.url}>
             <h4>${video.title}</h4>
             <p>${video.channelTitle}</p>
-            <p>${video.publishTime}</p>
+            <p>${new Date(video.publishTime).toLocaleDateString()}</p>
         `;
         container.appendChild(videoDiv);
        })
     }
 };
-xhttp.open("GET", "https://www.googleapis.com/youtube/v3/search?part=snippet&q=surfing&key=AIzaSyDe0a76sW47TbnAY0pZBIHlwTuo1uWozgc", true);
+xhttp.open("GET", "https://www.googleapis.com/youtube/v3/search?part=snippet&q=surfing&maxResults=9&key=AIzaSyDe0a76sW47TbnAY0pZBIHlwTuo1uWozgc", true);
 xhttp.send();
 </script>
 </body>
